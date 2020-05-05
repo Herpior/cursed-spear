@@ -38,6 +38,12 @@ python:
     killed = 0
     alive = 100
 
+transform charpos(x, y):
+    xpos x
+    ypos y
+    xanchor 0.5
+    yanchor 0.5
+
 # The game starts here.
 
 label start:
@@ -65,22 +71,29 @@ label start:
 label meeting_in_secret:
     # Where you meet your girlfriend
     # RPG style segment
-    show screen rpg_view("heart_of_light")
+
+    #show screen rpg_view("heart_of_light")
+    scene heart_of_light
+    show eri_rpg
+    $mouse_coords = MouseCoordinateContainer()
+    show screen mouse_tracker()
 
     python:
         chars = [eri, cam]
-        eri.x = 640
-        eri.y = 600
-        cam.x = 640
-        cam.y = 64
-        while eri.surface_dist(cam) > 4:
-            #renpy.show("eri_rpg", at_list=[Transform(pos=(eri.x, eri.y))])
-            #renpy.show("cam_rpg", at_list=[Transform(pos=(cam.x, cam.y))])
+        eri.x = 620.0
+        eri.y = 600.0
+        cam.x = 640.0
+        cam.y = 64.0
+    while eri.surface_dist(cam) > 4:
+        #renpy.show("eri_rpg", at_list=[Transform(pos=(eri.x, eri.y))])
+        #renpy.show("cam_rpg", at_list=[Transform(pos=(cam.x, cam.y))])
+        python:
             renpy.pause(0.016)
             WaitForInput()
             print(eri.dist(cam))
+            update()
     "test"
-    hide rpg_view
+
     return
 
 label the_final_date:
