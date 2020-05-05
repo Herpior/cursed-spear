@@ -5,6 +5,7 @@
 
 define c = Character("Camellia") # the cursed
 define e = Character("Erica") # the survivor
+define j = Character("Joe") # the prosecutor
 
 default e_dir = "front"
 image erp = "erp [e_dir]"
@@ -30,14 +31,6 @@ image erp right:
     0.1
     repeat
 
-python:
-    # initialize the variables necessary for the story
-    # at least until the parts where they are edited are finished
-    caught = false
-    dead = false
-    killed = 0
-    alive = 100
-
 transform charpos(x, y):
     xpos x
     ypos y
@@ -47,13 +40,24 @@ transform charpos(x, y):
 # The game starts here.
 
 label start:
+
+    python:
+        # initialize the variables necessary for the story
+        # at least until the parts where they are edited are finished
+        caught = False
+        dead = False
+        killed = 0
+        alive = 100
+
     # the main flow of the story
+    e "I need to hurry!"
 
     call meeting_in_secret
     call the_final_date
     call running_into_the_forest
     if caught:
-        jump burned_as_witches
+        jump burnt_as_witches
+    call running_into_the_ruins
     call in_the_ruins
     call the_confrontation
     if dead:
@@ -90,7 +94,7 @@ label meeting_in_secret:
         python:
             renpy.pause(0.016)
             WaitForInput()
-            print(eri.dist(cam))
+            #print(eri.dist(cam))
             update()
     "test"
 
@@ -99,17 +103,54 @@ label meeting_in_secret:
 label the_final_date:
     # The date that shows the relationship between the two characters and
     # ends up in them being found out
+    scene bg backyard_simple
+    show camellia normal at right
     c "Ah, there you are!"
+    show erica normal with moveinleft
+    e "Sorry, I'm late."
+    c "It's all right."
+    c "I'm just happy that you are here."
+
+    #talking, stuff, kiss cg for good bye
+
+    j "Camellia, where have you been, your father is looking for you."
+    j "Wait, what are you doing?"
+    j "I'll have you two come with me right this instant!"
+    c "Run!"
     return
 
 label running_into_the_forest:
     # The run away from the village
     # RPG style segment
+
+    scene heart_of_light
+    show eri_rpg
+    show cam_rpg
+    show joe_rpg
     python:
         chars = [eri, cam, vil]
+        vil.x = 620.0
+        vil.y = 600.0
+        cam.x = 640.0
+        cam.y = 64.0
+        eri.x = 720
+        eri.y = 64
+    while eri.x < 1000 and not caught:
+        #renpy.show("eri_rpg", at_list=[Transform(pos=(eri.x, eri.y))])
+        #renpy.show("cam_rpg", at_list=[Transform(pos=(cam.x, cam.y))])
+        python:
+            renpy.pause(0.016)
+            WaitForInput()
+            cam.follow(eri)
+            vil.follow(cam)
+            if (vil.surface_dist(cam) < 1 or vil.surface_dist(eri) < 1):
+                caught = True
+            #print(eri.dist(cam))
+            update()
+    "test"
     return
 
-label burned_as_witches:
+label burnt_as_witches:
     # You are caught by the one who saw you
     # Bad end 1
     "After staying in the jail for a week, you are finally brought back to the surface."
@@ -135,6 +176,39 @@ label burned_as_witches:
     "You died, by the way."
     "As did Camellia."
     "Was this really all you could do?"
+    return
+
+label running_into_the_forest:
+    # The run away from the village
+    # RPG style segment
+
+    c "Look, let's hide in those ruins."
+
+    scene heart_of_light
+    show eri_rpg
+    show cam_rpg
+    show joe_rpg
+    python:
+        chars = [eri, cam, temple_trigger]
+        cam.x = 200.0
+        cam.y = 360.0
+        eri.x = 328
+        eri.y = 360
+        temple_trigger.x = 640.0
+        temple_trigger.y = 64.0
+    while eri.surface_dist(temple_trigger) > 4:
+        #renpy.show("eri_rpg", at_list=[Transform(pos=(eri.x, eri.y))])
+        #renpy.show("cam_rpg", at_list=[Transform(pos=(cam.x, cam.y))])
+        python:
+            renpy.pause(0.016)
+            WaitForInput()
+            cam.follow(eri)
+            vil.follow(cam)
+            if (vil.surface_dist(cam) < 1 or vil.surface_dist(eri) < 1):
+                caught = True
+            #print(eri.dist(cam))
+            update()
+    "test"
     return
 
 label in_the_ruins:

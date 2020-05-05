@@ -15,7 +15,8 @@ init -10 python:
 
     def update():
         for char in chars:
-            renpy.show(char.img, at_list = [charpos(int(char.x), int(char.y))])
+            if(char.img is not None):
+                renpy.show(char.img, at_list = [charpos(int(char.x), int(char.y))])
 
     class MouseCoordinateContainer(object):
         """docstring for MouseCoordinateContainer"""
@@ -35,14 +36,14 @@ init -10 python:
             self.img = img
 
         def move_toward(self, _x, _y):
-            print("mouse pos", _x, _y)
+            #print("mouse pos", _x, _y)
             delta_x = _x - self.x
             delta_y = _y - self.y
-            print("delta", delta_x, delta_y)
+            #print("delta", delta_x, delta_y)
             if(delta_x == 0 and delta_y == 0):
                 return
             x, y = self.normalize(delta_x, delta_y)
-            print("normalized", x, y)
+            #print("normalized", x, y)
             if abs(x * self.speed) > abs(delta_x):
                 x = delta_x
             else:
@@ -52,7 +53,7 @@ init -10 python:
                 y = delta_y
             else:
                 y = y * self.speed
-                
+
             self.move(x, y, self.speed)
 
         def follow(self, other):
@@ -61,15 +62,17 @@ init -10 python:
         def normalize(self, x, y):
             length_sq = (x*x) + (y*y)
             _length = math.sqrt(length_sq)
+            if _length == 0:
+                return (x, y)
             return (x / _length, y / _length)
 
         def move(self, delta_x, delta_y, delta_length):
-            print("original pos", self.x, self.y)
+            #print("original pos", self.x, self.y)
             old_x = self.x
             old_y = self.y
             self.x += delta_x
             self.y += delta_y
-            print("target pos", self.x, self.y)
+            #print("target pos", self.x, self.y)
             for c in chars:
                 dist = self.surface_dist(c)
                 if c is not self and dist < 0:
@@ -78,7 +81,7 @@ init -10 python:
                     x, y = self.normalize(d_x, d_y)
                     self.x += dist * x
                     self.y += dist * y
-            print("changed pos", self.x, self.y)
+            #print("changed pos", self.x, self.y)
             backtrack = math.sqrt(self.dist2(old_x, old_y)) - delta_length
             if backtrack > 0:
                 d_x = old_x - self.x
@@ -86,7 +89,7 @@ init -10 python:
                 x, y = self.normalize(d_x, d_y)
                 self.x += backtrack * x
                 self.y += backtrack * y
-            print("backtracked pos", self.x, self.y)
+            #print("backtracked pos", self.x, self.y)
             min_bx, min_by = min_bound
             if self.x < min_bx:
                 self.x = min_bx
@@ -97,7 +100,7 @@ init -10 python:
                 self.x = max_bx
             if self.y > max_by:
                 self.y = max_by
-            print("bound pos", self.x, self.y)
+            #print("bound pos", self.x, self.y)
 
 
         def dist2(self, x, y):
