@@ -160,6 +160,7 @@ label meeting_in_secret:
     # Where you meet your girlfriend
     # RPG style segment
 
+    $renpy.suspend_rollback(True)
     #show screen rpg_view("heart_of_light")
     scene bg rpg_backyard at bg_transform
     #show eri_rpg
@@ -180,8 +181,9 @@ label meeting_in_secret:
             WaitForInput()
             #print(eri.dist(cam))
             update()
-    "test"
 
+
+    $renpy.suspend_rollback(False)
     return
 
 label the_final_date:
@@ -216,6 +218,7 @@ label running_into_the_forest:
     # The run away from the village
     # RPG style segment
 
+    $renpy.suspend_rollback(True)
     scene bg rpg_backyard at bg_transform
     #show eri_rpg
     #show cam_rpg
@@ -242,7 +245,8 @@ label running_into_the_forest:
                 caught = True
             #print(eri.dist(cam))
             update()
-    "test"
+
+    $renpy.suspend_rollback(False)
     return
 
 label burnt_as_witches:
@@ -280,6 +284,7 @@ label running_into_the_ruins:
     show camellia normal at dual_left
     c "Look, let's hide in those ruins."
 
+    $renpy.suspend_rollback(True)
     scene bg rpg_temple at bg_transform
     python:
         chars = [eri, cam]
@@ -298,7 +303,7 @@ label running_into_the_ruins:
             WaitForInput()
             cam.follow(eri)
             update()
-    "test"
+    $renpy.suspend_rollback(False)
     return
 
 label in_the_ruins:
@@ -308,12 +313,17 @@ label in_the_ruins:
     show camellia normal at dual_right
     show erica normal at dual_left
     c ""
+    scene cg the_pendant at bg_transform
+    "very sad things happen"
+    scene cg the_curse at bg_transform
+    c "It hurts so much, help me Erica!"
     return
 
 label the_confrontation:
     # The villagers have found you and are approaching the temple
     # RPG style segment
     "hold down mouse button to slash with the spear."
+    $renpy.suspend_rollback(True)
     scene bg rpg_temple at bg_transform
     #show screen mouse_tracker(mouse_down)
     python:
@@ -349,8 +359,8 @@ label the_confrontation:
         villager_instance[14].x = 842
         villager_instance[14].y = 653
         chars = [eri] + villager_instance
-        cam.x = 200.0
-        cam.y = 360.0
+        cam.x = 480.0
+        cam.y = 96.0
         eri.x = 328
         eri.y = 360
         mood = "_spear"
@@ -389,6 +399,8 @@ label the_confrontation:
             for char in villager_instance:
                 char.follow(eri)
             update()
+
+    $renpy.suspend_rollback(False)
     return
 
 label stabbed_to_death:
@@ -409,5 +421,7 @@ label enemy_of_the_state:
 
 label a_massacre:
     # You massacred everyone
+    scene cg the_massacre
+    "You killed everyone"
     # Bad End 4
     return
