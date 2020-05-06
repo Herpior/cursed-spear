@@ -7,29 +7,35 @@ define c = Character("Camellia") # the cursed
 define e = Character("Erica") # the survivor
 define j = Character("Joe") # the prosecutor
 
-default e_dir = "front"
-image erp = "erp [e_dir]"
+init -4:
 
-image erp front:
-    "eri_rpg.png"
-    0.1
-    repeat
+    default mood = ""
+    image eri_mini = "erp [eri.dir][mood]"
+    image cam_mini = "carp [cam.dir]"
+    image joe_mini = "jorp [vil.dir]"
 
-image erp back:
-    "eri_rpg.png"
-    0.1
-    repeat
+    image erp front:
+        "eri_rpg front"
+        #0.1
+        #repeat
+    image erp front_sad:
+        "eri_rpg front_sad"
+    image erp back:
+        "eri_rpg back"
+        #0.1
+        #repeat
+    image erp back_sad:
+        "eri_rpg back"
 
-image erp left:
-    "eri_rpg.png"
-    0.1
-    repeat
+    image carp front:
+        "cam_rpg front"
+    image carp back:
+        "cam_rpg back"
 
-image erp right:
-    xzoom -1
-    "eri_rpg.png"
-    0.1
-    repeat
+    image jorp front:
+        "joe_rpg front"
+    image jorp back:
+        "joe_rpg back"
 
 transform charpos(x, y):
     xpos x
@@ -37,6 +43,20 @@ transform charpos(x, y):
     xanchor 0.5
     yanchor 0.5
 
+transform dual_right:
+    xpos 0.7
+    xanchor 0.5
+    yanchor 1.0
+    ypos 1.0
+    zoom 0.6667
+
+
+transform dual_left:
+    xpos 0.3
+    xanchor 0.5
+    yanchor 1.0
+    ypos 1.0
+    zoom 0.6667
 # The game starts here.
 
 label start:
@@ -78,7 +98,7 @@ label meeting_in_secret:
 
     #show screen rpg_view("heart_of_light")
     scene heart_of_light
-    show eri_rpg
+    #show eri_rpg
     $mouse_coords = MouseCoordinateContainer()
     show screen mouse_tracker()
 
@@ -88,6 +108,8 @@ label meeting_in_secret:
         eri.y = 600.0
         cam.x = 640.0
         cam.y = 64.0
+        cam.dir = "front"
+        mood = ""
     while eri.surface_dist(cam) > 4:
         #renpy.show("eri_rpg", at_list=[Transform(pos=(eri.x, eri.y))])
         #renpy.show("cam_rpg", at_list=[Transform(pos=(cam.x, cam.y))])
@@ -104,9 +126,9 @@ label the_final_date:
     # The date that shows the relationship between the two characters and
     # ends up in them being found out
     scene bg backyard_simple
-    show camellia normal at right
+    show camellia normal at dual_right
     c "Ah, there you are!"
-    show erica normal with moveinleft
+    show erica normal at dual_left with moveinleft
     e "Sorry, I'm late."
     c "It's all right."
     c "I'm just happy that you are here."
@@ -124,9 +146,9 @@ label running_into_the_forest:
     # RPG style segment
 
     scene heart_of_light
-    show eri_rpg
-    show cam_rpg
-    show joe_rpg
+    #show eri_rpg
+    #show cam_rpg
+    #show joe_rpg
     python:
         chars = [eri, cam, vil]
         vil.x = 620.0
@@ -135,6 +157,7 @@ label running_into_the_forest:
         cam.y = 64.0
         eri.x = 720
         eri.y = 64
+        mood = "_sad"
     while eri.x < 1000 and not caught:
         #renpy.show("eri_rpg", at_list=[Transform(pos=(eri.x, eri.y))])
         #renpy.show("cam_rpg", at_list=[Transform(pos=(cam.x, cam.y))])
@@ -178,7 +201,7 @@ label burnt_as_witches:
     "Was this really all you could do?"
     return
 
-label running_into_the_forest:
+label running_into_the_ruins:
     # The run away from the village
     # RPG style segment
 

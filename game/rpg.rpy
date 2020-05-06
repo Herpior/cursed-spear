@@ -34,6 +34,13 @@ init -10 python:
             self.speed = speed
             self.radius = radius
             self.img = img
+            self.dir = "front"
+
+        def set_dir(self, delta_x, delta_y):
+            if delta_y >= 0:
+                self.dir = "front"
+            else:
+                self.dir = "back"
 
         def move_toward(self, _x, _y):
             #print("mouse pos", _x, _y)
@@ -67,6 +74,7 @@ init -10 python:
             return (x / _length, y / _length)
 
         def move(self, delta_x, delta_y, delta_length):
+            self.set_dir(delta_x, delta_y)
             #print("original pos", self.x, self.y)
             old_x = self.x
             old_y = self.y
