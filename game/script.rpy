@@ -421,7 +421,7 @@ label enemy_of_the_state:
 
 label a_massacre:
     # You massacred everyone
-    scene cg the_massacre
+    scene cg the_massacre at bg_transform
     "You killed everyone"
     # Bad End 4
     return
