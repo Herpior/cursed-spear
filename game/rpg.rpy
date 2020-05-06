@@ -16,7 +16,7 @@ init -10 python:
     def update():
         for char in chars:
             if(char.img is not None):
-                renpy.show(char.img, at_list = [charpos(int(char.x), int(char.y))])
+                renpy.show(char.img, at_list = [charpos(int(char.x), int(char.y))], zorder = int(char.y))
 
     class MouseCoordinateContainer(object):
         """docstring for MouseCoordinateContainer"""

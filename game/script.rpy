@@ -22,6 +22,10 @@ init -4:
         "eri_rpg front_sad"
     image erp back:
         "eri_rpg back"
+    image erp front_spear:
+        "eri_rpg front_spear"
+    image erp back_spear:
+        "eri_rpg back_spear"
         #0.1
         #repeat
     image erp back_sad:
@@ -57,6 +61,17 @@ transform dual_left:
     yanchor 1.0
     ypos 1.0
     zoom 0.6667
+
+transform kiss_left:
+    xpos 0.67
+    xanchor 0.5
+    yanchor 1.0
+    ypos 1.0
+    zoom 0.6667
+
+transform bg_transform:
+    zoom 0.6667
+
 # The game starts here.
 
 label start:
@@ -97,16 +112,14 @@ label meeting_in_secret:
     # RPG style segment
 
     #show screen rpg_view("heart_of_light")
-    scene heart_of_light
+    scene bg rpg_backyard at bg_transform
     #show eri_rpg
-    $mouse_coords = MouseCoordinateContainer()
-    show screen mouse_tracker()
 
     python:
         chars = [eri, cam]
         eri.x = 620.0
         eri.y = 600.0
-        cam.x = 640.0
+        cam.x = 680.0
         cam.y = 64.0
         cam.dir = "front"
         mood = ""
@@ -125,7 +138,7 @@ label meeting_in_secret:
 label the_final_date:
     # The date that shows the relationship between the two characters and
     # ends up in them being found out
-    scene bg backyard_simple
+    scene bg backyard at bg_transform
     show camellia normal at dual_right
     c "Ah, there you are!"
     show erica normal at dual_left with moveinleft
@@ -133,19 +146,28 @@ label the_final_date:
     c "It's all right."
     c "I'm just happy that you are here."
 
+    show erica at kiss_left behind camellia
+    show camellia at right
+    with ease
+
+    show joe normal at left with moveinleft:
+        zoom 0.6667
     #talking, stuff, kiss cg for good bye
 
     j "Camellia, where have you been, your father is looking for you."
     j "Wait, what are you doing?"
     j "I'll have you two come with me right this instant!"
     c "Run!"
+    hide camellia
+    hide erica
+    with moveoutright
     return
 
 label running_into_the_forest:
     # The run away from the village
     # RPG style segment
 
-    scene heart_of_light
+    scene bg rpg_backyard at bg_transform
     #show eri_rpg
     #show cam_rpg
     #show joe_rpg
@@ -153,12 +175,13 @@ label running_into_the_forest:
         chars = [eri, cam, vil]
         vil.x = 620.0
         vil.y = 600.0
-        cam.x = 640.0
+        cam.x = 680.0
         cam.y = 64.0
-        eri.x = 720
+        eri.x = 760
         eri.y = 64
         mood = "_sad"
-    while eri.x < 1000 and not caught:
+        caught = False
+    while eri.x < 1140 and not caught:
         #renpy.show("eri_rpg", at_list=[Transform(pos=(eri.x, eri.y))])
         #renpy.show("cam_rpg", at_list=[Transform(pos=(cam.x, cam.y))])
         python:
@@ -204,32 +227,30 @@ label burnt_as_witches:
 label running_into_the_ruins:
     # The run away from the village
     # RPG style segment
-
+    scene bg forest at bg_transform
+    show camellia normal at dual_left
     c "Look, let's hide in those ruins."
 
-    scene heart_of_light
+    scene bg rpg_temple at bg_transform
     show eri_rpg
     show cam_rpg
     show joe_rpg
     python:
-        chars = [eri, cam, temple_trigger]
+        chars = [eri, cam]
         cam.x = 200.0
         cam.y = 360.0
         eri.x = 328
         eri.y = 360
+        mood = "_sad"
         temple_trigger.x = 640.0
         temple_trigger.y = 64.0
-    while eri.surface_dist(temple_trigger) > 4:
+    while eri.y > 80 and eri.x > 200 and eri.x < 900:
         #renpy.show("eri_rpg", at_list=[Transform(pos=(eri.x, eri.y))])
         #renpy.show("cam_rpg", at_list=[Transform(pos=(cam.x, cam.y))])
         python:
             renpy.pause(0.016)
             WaitForInput()
             cam.follow(eri)
-            vil.follow(cam)
-            if (vil.surface_dist(cam) < 1 or vil.surface_dist(eri) < 1):
-                caught = True
-            #print(eri.dist(cam))
             update()
     "test"
     return
@@ -237,13 +258,24 @@ label running_into_the_ruins:
 label in_the_ruins:
     # You think you are safe
     # The cursed object is found and activated
+    scene bg temple at bg_transform
+    show camellia at dual_right
+    show erica at dual_left
+    c ""
     return
 
 label the_confrontation:
     # The villagers have found you and are approaching the temple
     # RPG style segment
+    scene bg rpg_temple at bg_transform
+    show screen mouse_tracker()
     python:
-        chars = [eri, cam] + villagers
+        chars = [eri] + villagers
+        cam.x = 200.0
+        cam.y = 360.0
+        eri.x = 328
+        eri.y = 360
+        mood = "_spear"
     return
 
 label stabbed_to_death:
