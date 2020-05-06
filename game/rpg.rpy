@@ -13,17 +13,54 @@ init -10 python:
         eri.move_toward(x, y)
         #renpy.restart_interaction()
 
+    def check_deaths(killer, targets):
+        deaths = []
+        for target in targets:
+            if killer.surface_dist(target) < 32:
+                deaths.append(target)
+        return deaths
+
+    def isMousePressed():
+        return sum(pygame.mouse.get_pressed()) > 0
+
     def update():
         for char in chars:
             if(char.img is not None):
                 renpy.show(char.img, at_list = [charpos(int(char.x), int(char.y))], zorder = int(char.y))
 
-    class MouseCoordinateContainer(object):
-        """docstring for MouseCoordinateContainer"""
-        def __init__(self):
-            super(MouseCoordinateContainer, self).__init__()
-            self.x = 640
-            self.y = 360
+    class AnimationAt(renpy.Displayable):
+        """
+        docstring for AnimationAt
+        I use hacky ways to render the characters during rpg segments,
+        renpy doesn't exactly like it, so it breaks default animations.
+        using at instead of st for setting the frames is a hacky way
+        to go around the problems caused by the other hacky solutions
+        """
+        def __init__(self, frames):
+            super(AnimationAt, self).__init__()
+            #self.mouse_coords = mouse_coords
+            self.frames = [Image(frames[i]) for i in range(len(frames))]
+
+        def render(self, width, height, st, at):
+            #print(st, at)
+            t = Transform(self.frames[int(12 * (at % 0.5))])
+            child_render = renpy.render(t, width, height, st, at)
+            cw, ch = child_render.get_size()
+            rv = renpy.Render(cw, ch)
+            rv.blit(child_render, (0,0))
+            return rv
+
+        def event(self, ev, x, y, st):
+            pass
+
+        def visit(self):
+            return self.frames
+
+    class BooleanContainer(object):
+        """docstring for BooleanContainer"""
+        def __init__(self, initial_value = False):
+            super(BooleanContainer, self).__init__()
+            self.bool = initial_value
 
 
     class RPGCharacter(object):
@@ -41,6 +78,11 @@ init -10 python:
                 self.dir = "front"
             else:
                 self.dir = "back"
+
+        def dir_to(self, other):
+            delta_x = other.x - self.x
+            delta_y = other.y - self.y
+            return math.atan2(delta_y, delta_x)*180/math.pi - 90
 
         def move_toward(self, _x, _y):
             #print("mouse pos", _x, _y)
@@ -126,9 +168,10 @@ init -10 python:
 
     class MouseTracker(renpy.Displayable):
         """docstring for MouseTracker"""
-        def __init__(self):
+        def __init__(self, bc):
             super(MouseTracker, self).__init__()
             #self.mouse_coords = mouse_coords
+            self.bc = bc
 
         def render(self, width, height, st, at):
             return renpy.Render(0,0)
@@ -137,13 +180,19 @@ init -10 python:
             #print("event checked", self.mouse_coords.x, self.mouse_coords.y, x, y)
             #self.mouse_coords.x = x
             #self.mouse_coords.y = y
-            pass
+            print(bc.bool)
+            if ev.type == pygame.MOUSEBUTTONUP:
+                print("mouse up")
+                bc.bool = False
+            if ev.type == pygame.MOUSEBUTTONDOWN:
+                print("mouse down")
+                bc.bool = True
 
         def visit(self):
             return []
 
-screen mouse_tracker():
-    add MouseTracker()
+screen mouse_tracker(bc):
+    add MouseTracker(bc)
 
 screen rpg_view(bg):
     add bg

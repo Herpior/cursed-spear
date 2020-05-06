@@ -14,13 +14,31 @@ init -4:
     image cam_mini = "carp [cam.dir]"
     image joe_mini = "jorp [vil.dir]"
 
+    image joe_copy_0 = "jorp [villagers[0].dir]"
+    image joe_copy_1 = "jorp [villagers[1].dir]"
+    image joe_copy_2 = "jorp [villagers[2].dir]"
+    image joe_copy_3 = "jorp [villagers[3].dir]"
+    image joe_copy_4 = "jorp [villagers[4].dir]"
+    image joe_copy_5 = "jorp [villagers[5].dir]"
+    image joe_copy_6 = "jorp [villagers[6].dir]"
+    image joe_copy_7 = "jorp [villagers[7].dir]"
+    image joe_copy_8 = "jorp [villagers[8].dir]"
+    image joe_copy_9 = "jorp [villagers[9].dir]"
+    image joe_copy_10 = "jorp [villagers[10].dir]"
+    image joe_copy_11 = "jorp [villagers[11].dir]"
+    image joe_copy_12 = "jorp [villagers[12].dir]"
+    image joe_copy_13 = "jorp [villagers[13].dir]"
+    image joe_copy_14 = "jorp [villagers[14].dir]"
+
     image erp front:
         "eri_rpg front"
         #0.1
         #repeat
+    image erp back:
+        "eri_rpg back"
     image erp front_sad:
         "eri_rpg front_sad"
-    image erp back:
+    image erp back_sad:
         "eri_rpg back"
     image erp front_spear:
         "eri_rpg front_spear"
@@ -28,8 +46,36 @@ init -4:
         "eri_rpg back_spear"
         #0.1
         #repeat
-    image erp back_sad:
-        "eri_rpg back"
+    image erp front_angery = AnimationAt(["rpg/eri_rpg angery_0000.png", "rpg/eri_rpg angery_0001.png", "rpg/eri_rpg angery_0002.png", "rpg/eri_rpg angery_0003.png", "rpg/eri_rpg angery_0004.png", "rpg/eri_rpg angery_0005.png"])
+    image erp back_angery = AnimationAt(["rpg/eri_rpg back_angery_0000.png", "rpg/eri_rpg back_angery_0001.png", "rpg/eri_rpg back_angery_0002.png", "rpg/eri_rpg back_angery_0003.png", "rpg/eri_rpg back_angery_0004.png", "rpg/eri_rpg back_angery_0005.png"])
+    image erpx front_angery:
+        "eri_rpg angery_0000"
+        0.083
+        "eri_rpg angery_0001"
+        0.083
+        "eri_rpg angery_0002"
+        0.083
+        "eri_rpg angery_0003"
+        0.083
+        "eri_rpg angery_0004"
+        0.083
+        "eri_rpg angery_0005"
+        0.083
+        repeat
+    image erpx back_angery:
+        "eri_rpg back_angery_0000"
+        0.083
+        "eri_rpg back_angery_0001"
+        0.083
+        "eri_rpg back_angery_0002"
+        0.083
+        "eri_rpg back_angery_0003"
+        0.083
+        "eri_rpg back_angery_0004"
+        0.083
+        "eri_rpg back_angery_0005"
+        0.083
+        repeat
 
     image carp front:
         "cam_rpg front"
@@ -68,6 +114,9 @@ transform kiss_left:
     yanchor 1.0
     ypos 1.0
     zoom 0.6667
+
+transform rot(angel):
+    rotate angel
 
 transform bg_transform:
     zoom 0.6667
@@ -119,8 +168,8 @@ label meeting_in_secret:
         chars = [eri, cam]
         eri.x = 620.0
         eri.y = 600.0
-        cam.x = 680.0
-        cam.y = 64.0
+        cam.x = 700.0
+        cam.y = 54.0
         cam.dir = "front"
         mood = ""
     while eri.surface_dist(cam) > 4:
@@ -232,9 +281,6 @@ label running_into_the_ruins:
     c "Look, let's hide in those ruins."
 
     scene bg rpg_temple at bg_transform
-    show eri_rpg
-    show cam_rpg
-    show joe_rpg
     python:
         chars = [eri, cam]
         cam.x = 200.0
@@ -244,7 +290,7 @@ label running_into_the_ruins:
         mood = "_sad"
         temple_trigger.x = 640.0
         temple_trigger.y = 64.0
-    while eri.y > 80 and eri.x > 200 and eri.x < 900:
+    while eri.y > 80 or eri.x < 200 or eri.x > 900:
         #renpy.show("eri_rpg", at_list=[Transform(pos=(eri.x, eri.y))])
         #renpy.show("cam_rpg", at_list=[Transform(pos=(cam.x, cam.y))])
         python:
@@ -259,23 +305,90 @@ label in_the_ruins:
     # You think you are safe
     # The cursed object is found and activated
     scene bg temple at bg_transform
-    show camellia at dual_right
-    show erica at dual_left
+    show camellia normal at dual_right
+    show erica normal at dual_left
     c ""
     return
 
 label the_confrontation:
     # The villagers have found you and are approaching the temple
     # RPG style segment
+    "hold down mouse button to slash with the spear."
     scene bg rpg_temple at bg_transform
-    show screen mouse_tracker()
+    #show screen mouse_tracker(mouse_down)
     python:
-        chars = [eri] + villagers
+        villager_instance = villagers[:]
+        villager_instance[0].x = 196
+        villager_instance[0].y = 642
+        villager_instance[1].x = 263
+        villager_instance[1].y = 666
+        villager_instance[2].x = 289
+        villager_instance[2].y = 634
+        villager_instance[3].x = 325
+        villager_instance[3].y = 682
+        villager_instance[4].x = 384
+        villager_instance[4].y = 633
+        villager_instance[5].x = 486
+        villager_instance[5].y = 652
+        villager_instance[6].x = 521
+        villager_instance[6].y = 629
+        villager_instance[7].x = 559
+        villager_instance[7].y = 690
+        villager_instance[8].x = 582
+        villager_instance[8].y = 630
+        villager_instance[9].x = 632
+        villager_instance[9].y = 651
+        villager_instance[10].x = 693
+        villager_instance[10].y = 643
+        villager_instance[11].x = 724
+        villager_instance[11].y = 684
+        villager_instance[12].x = 760
+        villager_instance[12].y = 653
+        villager_instance[13].x = 826
+        villager_instance[13].y = 613
+        villager_instance[14].x = 842
+        villager_instance[14].y = 653
+        chars = [eri] + villager_instance
         cam.x = 200.0
         cam.y = 360.0
         eri.x = 328
         eri.y = 360
         mood = "_spear"
+        dead = False
+        alive = len(villager_instance)
+        killed = 0
+    while alive > 0 and eri.x < 1140 and not dead:
+        #renpy.show("eri_rpg", at_list=[Transform(pos=(eri.x, eri.y))])
+        #renpy.show("cam_rpg", at_list=[Transform(pos=(cam.x, cam.y))])
+        python:
+            renpy.pause(0.016)
+            WaitForInput()
+            mouse_down = isMousePressed()
+            if mouse_down:
+                mood = "_angery"
+                deaths = check_deaths(eri, villager_instance)
+                for dead_vil in deaths:
+                    killed += 1
+                    alive -= 1
+                    #hack_swap = villager_instance[-1]
+                    villager_instance.remove(dead_vil)
+                    chars.remove(dead_vil)
+                    renpy.hide(dead_vil.img)
+                    renpy.show("splat_rpg", tag = "splat_"+str(killed), at_list = [rot(dead_vil.dir_to(eri)), charpos(int(dead_vil.x), int(dead_vil.y))])
+                    #dead_vil.x = hack_swap.x
+                    #dead_vil.y = hack_swap.y
+            elif eri in chars:
+                mood = "_spear"
+                for villager in villager_instance:
+                    if eri.surface_dist(villager) < 2:
+                        dead = True
+                        chars.remove(eri)
+                        renpy.hide(eri.img)
+                        renpy.show("splat_rpg", tag = "splat_"+str(killed), at_list = [rot(eri.dir_to(villager)), charpos(int(eri.x), int(eri.y))])
+
+            for char in villager_instance:
+                char.follow(eri)
+            update()
     return
 
 label stabbed_to_death:

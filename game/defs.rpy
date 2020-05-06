@@ -8,5 +8,5 @@ init -5 python:
     temple_trigger = RPGCharacter(speed = 0.0001, radius = 128)
 
     vil = RPGCharacter(speed = 2, radius = 32, img = "joe_mini")
-    villagers = [RPGCharacter(speed = 2, radius = 52, img = "joe_mini") for i in range(20)]
+    villagers = [RPGCharacter(speed = 2, radius = 32, img = "joe_copy_"+str(i)) for i in range(15)]
     trees = []
