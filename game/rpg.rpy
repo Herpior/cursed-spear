@@ -108,6 +108,11 @@ init -10 python:
         def follow(self, other):
             self.move_toward(other.x, other.y)
 
+        def run_from(self, other):
+            delta_x = other.x - self.x
+            delta_y = other.y - self.y
+            self.move_toward(self.x - delta_x, self.y - delta_y)
+
         def normalize(self, x, y):
             length_sq = (x*x) + (y*y)
             _length = math.sqrt(length_sq)

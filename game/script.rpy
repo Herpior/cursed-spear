@@ -29,6 +29,9 @@ init -4:
     image joe_copy_12 = "jorp [villagers[12].dir]"
     image joe_copy_13 = "jorp [villagers[13].dir]"
     image joe_copy_14 = "jorp [villagers[14].dir]"
+    image joe_copy_15 = "jorp [villagers[15].dir]"
+    image joe_copy_16 = "jorp [villagers[16].dir]"
+    image joe_copy_17 = "jorp [villagers[17].dir]"
 
     image erp front:
         "eri_rpg front"
@@ -115,6 +118,23 @@ transform kiss_left:
     ypos 1.0
     zoom 0.6667
 
+transform kiss_to_left:
+    xpos 0.72
+    xanchor 0.5
+    yanchor 1.0
+    ypos 1.0
+    zoom 0.6667
+    ease 0.3 xpos 0.67
+
+transform kiss_to_right:
+    xpos 0.75
+    xanchor 0.5
+    yanchor 1.0
+    ypos 1.0
+    zoom 0.6667
+    ease 0.3 xpos 0.8
+
+
 transform rot(angel):
     rotate angel
 
@@ -135,6 +155,7 @@ label start:
 
     # the main flow of the story
     e "I need to hurry!"
+    play music "bgm/The Fragile Bliss Founded On Secrecy #74.mp3" fadein 2 fadeout 2
 
     call meeting_in_secret
     call the_final_date
@@ -200,12 +221,23 @@ label the_final_date:
     show erica at kiss_left behind camellia
     show camellia at right
     with ease
+    e "I missed you so."
+    c ""
+
+    scene cg the_kiss at bg_transform
+    e "I wish we could stay like this forever." # the monkey paw twists a finger
+
+
+
+    j "Camellia, where have you been, your father is looking for you."
+    scene bg backyard at bg_transform
+    show erica normal at kiss_to_left behind camellia
+    show camellia normal at kiss_to_right
 
     show joe normal at left with moveinleft:
         zoom 0.6667
-    #talking, stuff, kiss cg for good bye
+    play music "bgm/Persecuted, Belittled And Betrayed By The People #50.mp3" fadein 2 fadeout 2
 
-    j "Camellia, where have you been, your father is looking for you."
     j "Wait, what are you doing?"
     j "I'll have you two come with me right this instant!"
     c "Run!"
@@ -220,6 +252,7 @@ label running_into_the_forest:
 
     $renpy.suspend_rollback(True)
     scene bg rpg_backyard at bg_transform
+
     #show eri_rpg
     #show cam_rpg
     #show joe_rpg
@@ -252,6 +285,8 @@ label running_into_the_forest:
 label burnt_as_witches:
     # You are caught by the one who saw you
     # Bad end 1
+    scene black
+    play music "bgm/When What Is Known As Self Is Lost #79.mp3" fadein 2 fadeout 2
     "After staying in the jail for a week, you are finally brought back to the surface."
     "Sun's last rays blind you when they reach your eyes."
     "Once your eyes adjust to the light, the sight is breathtaking."
@@ -312,10 +347,12 @@ label in_the_ruins:
     scene bg temple at bg_transform
     show camellia normal at dual_right
     show erica normal at dual_left
+    play music "bgm/Psychological Emotional Survival Of An Indignant Soul #69.mp3" fadein 2 fadeout 2
     c ""
     scene cg the_pendant at bg_transform
     "very sad things happen"
     scene cg the_curse at bg_transform
+    play music "bgm/The Abyss Known As Oneself #39.mp3" fadein 2 fadeout 2
     c "It hurts so much, help me Erica!"
     return
 
@@ -325,6 +362,7 @@ label the_confrontation:
     "hold down mouse button to slash with the spear."
     $renpy.suspend_rollback(True)
     scene bg rpg_temple at bg_transform
+    play music "bgm/Negotiating The Boundary Between Self And World #85.mp3" fadein 2 fadeout 2
     #show screen mouse_tracker(mouse_down)
     python:
         villager_instance = villagers[:]
@@ -358,16 +396,22 @@ label the_confrontation:
         villager_instance[13].y = 613
         villager_instance[14].x = 842
         villager_instance[14].y = 653
+
+        villager_instance[15].x = 103
+        villager_instance[15].y = 369
+        villager_instance[16].x = 125
+        villager_instance[16].y = 481
+        villager_instance[17].x = 96
+        villager_instance[17].y = 531
         chars = [eri] + villager_instance
-        cam.x = 480.0
-        cam.y = 96.0
-        eri.x = 328
-        eri.y = 360
+        eri.x = 480.0
+        eri.y = 96.0
         mood = "_spear"
         dead = False
         alive = len(villager_instance)
         killed = 0
-    while alive > 0 and eri.x < 1140 and not dead:
+        escapee = False
+    while alive > 0 and eri.x < 1140 and not dead and not escapee:
         #renpy.show("eri_rpg", at_list=[Transform(pos=(eri.x, eri.y))])
         #renpy.show("cam_rpg", at_list=[Transform(pos=(cam.x, cam.y))])
         python:
@@ -395,9 +439,16 @@ label the_confrontation:
                         chars.remove(eri)
                         renpy.hide(eri.img)
                         renpy.show("splat_rpg", tag = "splat_"+str(killed), at_list = [rot(eri.dir_to(villager)), charpos(int(eri.x), int(eri.y))])
+                        renpy.pause(0.2)
 
-            for char in villager_instance:
-                char.follow(eri)
+            if (killed > 5):
+                for char in villager_instance:
+                    char.run_from(eri)
+                    if char.x < 8 or char.x > 1272 or char.y > 712:
+                        escapee = True
+            else:
+                for char in villager_instance:
+                    char.follow(eri)
             update()
 
     $renpy.suspend_rollback(False)
@@ -406,22 +457,33 @@ label the_confrontation:
 label stabbed_to_death:
     # The villagers killed you
     # Bad End 2
+    scene black with fadein
+    play music "bgm/When What Is Known As Self Is Lost #79.mp3" fadein 2 fadeout 2
+    "You got killed"
     return
 
 label on_the_run:
     # You run away from the villagers
     # A slightly less bad end?
+    scene cg the_escape at bg_transform
+    play music "bgm/Perseverance In The Face Of Extreme Moral And Social Weakness #42.mp3" fadein 2 fadeout 2
+    "You ran away"
     return
 
 label enemy_of_the_state:
     # You killed people but let some of them escape
     # Now you are a fugitive sought by the entire nation
     # Bad End 3
+    scene cg the_monster at bg_transform
+    play music "bgm/When What Is Known As Self Is Lost #79.mp3" fadein 2 fadeout 2
+    "The remaining villagers run away."
     return
 
 label a_massacre:
     # You massacred everyone
     scene cg the_massacre at bg_transform
+    play music "bgm/When What Is Known As Self Is Lost #79.mp3" fadein 2 fadeout 2
+    "..." # it's easy to accidentally click through the first line, so add a line that can be safely skipped.
     "You killed everyone"
     # Bad End 4
     return
