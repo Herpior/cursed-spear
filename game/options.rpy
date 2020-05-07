@@ -18,7 +18,7 @@ define config.name = _("I accidentally cursed my girlfriend and she turned into 
 ## Determines if the title given above is shown on the main menu screen. Set
 ## this to False to hide the title.
 
-define gui.show_name = True
+define gui.show_name = False
 
 
 ## The version of the game.
@@ -30,6 +30,11 @@ define config.version = "1.0"
 ## triple-quotes, and leave a blank line between paragraphs.
 
 define gui.about = _p("""
+A visual novel made for a jam with design constraint "sad games".
+
+Graphics, story and code by Qazhax.
+
+Soundtrack composed by AIVA (Artificial Intelligence Virtual Artist): https://www.aiva.ai
 """)
 
 
@@ -45,9 +50,9 @@ define build.name = "Cursed_spear_gf"
 ## These three variables control which mixers are shown to the player by
 ## default. Setting one of these to False will hide the appropriate mixer.
 
-define config.has_sound = True
+define config.has_sound = False
 define config.has_music = True
-define config.has_voice = True
+define config.has_voice = False
 
 
 ## To allow the user to play a test sound on the sound or voice channel,
@@ -61,7 +66,7 @@ define config.has_voice = True
 ## the player is at the main menu. This file will continue playing into the
 ## game, until it is stopped or another file is played.
 
-# define config.main_menu_music = "main-menu-theme.ogg"
+define config.main_menu_music = "bgm/The Fragile Bliss Founded On Secrecy #74.mp3"
 
 
 ## Transitions #################################################################

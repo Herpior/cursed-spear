@@ -240,6 +240,7 @@ label the_final_date:
 
     j "Wait, what are you doing?"
     j "I'll have you two come with me right this instant!"
+    $renpy.suspend_rollback(True)
     c "Run!"
     hide camellia
     hide erica
@@ -250,7 +251,6 @@ label running_into_the_forest:
     # The run away from the village
     # RPG style segment
 
-    $renpy.suspend_rollback(True)
     scene bg rpg_backyard at bg_transform
 
     #show eri_rpg
@@ -279,14 +279,14 @@ label running_into_the_forest:
             #print(eri.dist(cam))
             update()
 
-    $renpy.suspend_rollback(False)
     return
 
 label burnt_as_witches:
     # You are caught by the one who saw you
     # Bad end 1
-    scene black
+    scene black with dissolve
     play music "bgm/When What Is Known As Self Is Lost #79.mp3" fadein 2 fadeout 2
+    $renpy.suspend_rollback(False)
     "After staying in the jail for a week, you are finally brought back to the surface."
     "Sun's last rays blind you when they reach your eyes."
     "Once your eyes adjust to the light, the sight is breathtaking."
@@ -317,9 +317,11 @@ label running_into_the_ruins:
     # RPG style segment
     scene bg forest at bg_transform
     show camellia normal at dual_left
-    c "Look, let's hide in those ruins."
 
-    $renpy.suspend_rollback(True)
+    #$renpy.suspend_rollback(False)
+    c "Look, let's hide in those ruins."
+    #$renpy.suspend_rollback(True)
+
     scene bg rpg_temple at bg_transform
     python:
         chars = [eri, cam]
@@ -338,7 +340,6 @@ label running_into_the_ruins:
             WaitForInput()
             cam.follow(eri)
             update()
-    $renpy.suspend_rollback(False)
     return
 
 label in_the_ruins:
@@ -347,6 +348,7 @@ label in_the_ruins:
     scene bg temple at bg_transform
     show camellia normal at dual_right
     show erica normal at dual_left
+    $renpy.suspend_rollback(False)
     play music "bgm/Psychological Emotional Survival Of An Indignant Soul #69.mp3" fadein 2 fadeout 2
     c ""
     scene cg the_pendant at bg_transform
@@ -359,8 +361,8 @@ label in_the_ruins:
 label the_confrontation:
     # The villagers have found you and are approaching the temple
     # RPG style segment
-    "hold down mouse button to slash with the spear."
     $renpy.suspend_rollback(True)
+    "hold down mouse button to slash with the spear."
     scene bg rpg_temple at bg_transform
     play music "bgm/Negotiating The Boundary Between Self And World #85.mp3" fadein 2 fadeout 2
     #show screen mouse_tracker(mouse_down)
@@ -457,7 +459,7 @@ label the_confrontation:
 label stabbed_to_death:
     # The villagers killed you
     # Bad End 2
-    scene black with fadein
+    scene black with dissolve
     play music "bgm/When What Is Known As Self Is Lost #79.mp3" fadein 2 fadeout 2
     "You got killed"
     return
