@@ -213,32 +213,83 @@ label the_final_date:
     scene bg backyard at bg_transform
     show camellia normal at dual_right
     c "Ah, there you are!"
-    show erica normal at dual_left with moveinleft
+    show erica happy at dual_left with moveinleft
     e "Sorry, I'm late."
     c "It's all right."
     c "I'm just happy that you are here."
+    # some gpt2 generated pieces
+    # "Is everything okay?" "Everything is just fine, so long as I don't find you here alone," Camellia says with a smile. "I'm not alone. I have you."
+    # "Well, I'm glad to be here with you again." Erica replies. They hug, then Erica asks, "Do you want to go back to your bedroom?" Camellia replies with a smile.
+    # "I had almost given up on recovery. It was only your inspirational words that pulled me out of my depression and into the back rooms of the guild. Without you, I know I would have become an alchemist again. I am absolutely indebted to you."
+    c "I missed you so."
+    e "Is everything okay?"
+    e "You look a bit distraught."
+    c "It's nothing."
+    show erica questioning
+    e "Really?"
+    show camellia worried
+    c "I really can't hide anything from you, can I."
+    show camellia sad
+    show erica normal
+    c "You remember when my father told me he'd get me married to some rich merchant if I wouldn't stop declining the marriage offers?"
+    c "Well, it seems he's found someone interested."
+    show camellia cri
+    c "The papers are already in order and the merchant is set to pick me up later this week."
+    show erica mad
+    e "What?"
+    e "I'll go punch some sense into those idiots right away!"
+    show camellia worried
+    c "Wait, calm down."
+    show camellia sad
+    c "You know that won't solve anything."
+    e "But that's so unfair."
+    show erica normal
+    e "Isn't there anything I can do?"
+    show camellia normal at dual_right
+    c "You can be with me."
+    e "But are you going to just let them take you away?"
+    c "I will let them see their mistake once the time comes."
+    c "But enough of that, come closer."
 
-    show erica at kiss_left behind camellia
-    show camellia at right
+    show erica lenny at kiss_left behind camellia
+    show camellia nya_left at right
     with ease
-    e "I missed you so."
-    c ""
+    c "You're the only one I'd let take me away."
+    show erica blush
+    e "Oh Camellia."
+    e "You're unfair too."
+    show camellia flirt
+    c "It runs in the family."
+    show erica nyahaha
+    e "Stop it, you'll make my heart burst."
+    show camellia nya_left
+    c "Just like that?"
+    c "Even though we've gone further before?"
+    show erica blush
+    e "Every day is a new day."
+    c "So you'll make me do this every day?"
 
     scene cg the_kiss at bg_transform
-    e "I wish we could stay like this forever." # the monkey paw twists a finger
+    e "m-mmh."
+    e "Only if you stay with me."
+    c "I won't let anything separate us."
+    c "If only this moment could last for ever."
+    e "To stay like this forever." # the monkey paw twists a finger
+    e "I couldn't ask for more."
 
 
 
-    j "Camellia, where have you been, your father is looking for you."
+    j "Camellia, I looked for you everywhere, your father is looking for you."
     scene bg backyard at bg_transform
     show erica normal at kiss_to_left behind camellia
-    show camellia normal at kiss_to_right
+    show camellia shock at kiss_to_right
 
     show joe normal at left with moveinleft:
         zoom 0.6667
     play music "bgm/Persecuted, Belittled And Betrayed By The People #50.mp3" fadein 2 fadeout 2
 
     j "Wait, what are you doing?"
+    show camellia shock_left
     j "I'll have you two come with me right this instant!"
     $renpy.suspend_rollback(True)
     c "Run!"
@@ -287,23 +338,42 @@ label burnt_as_witches:
     scene black with dissolve
     play music "bgm/When What Is Known As Self Is Lost #79.mp3" fadein 2 fadeout 2
     $renpy.suspend_rollback(False)
-    "After staying in the jail for a week, you are finally brought back to the surface."
-    "Sun's last rays blind you when they reach your eyes."
-    "Once your eyes adjust to the light, the sight is breathtaking."
-    "Or would be, if not for the pile of wood brought to the center of the square."
-    "Being pulled closer towards the pile, you notice the figure of another woman, already tied to one of the pillars in the center of the pile."
+    "Joe captures you both."
+    "You try to fight back but he is like wall of muscle."
+    "You are thrown into a small room and separated from Camellia."
+
+    "After staying in the room for what must have been days, you're finally brought out." #, you are finally brought back to the surface."
+    #"Sun's last rays blind you when they reach your eyes."
+    #"Once your eyes adjust to the light, the sight is breathtaking."
+    #"Or would be, if not for the pile of wood brought to the center of the square."
+    "You're led to the center of the town."
+    "A pile of wood is waiting for you at the town square."
+    "Being pulled closer towards the pile, you notice the figure of another woman already tied to one of the stakes in the center of the pile."
     e "Camellia!!"
-    c "Erica? Oh no."
+    c "Erica? Ahh, I'm so sorry."
+    c "Maybe I could had saved you if I'd done something differently."
     #c "I was hoping they would save at least you." #"I tried to make them at least let you go"
     "You are led to a pillar next to Camellia."
     e "At least we're together again."
+    e "But how are you here? didn't the merchant..."
     "You're tied tight to the pillar."
+    c "He got second thoughts once I almost ripped his face off."
     "The ropes dig into your already sore body."
+    c "After hearing about that, my father got furious, telling he'd 'let me be with you' if that was what I so wanted."
     "More people from the village is gathering to watch."
+    e "Meaning this?"
+    e "What a twisted father you have."
+    c "The worst part is how happy I felt that moment, even though I guessed what he was meaning."
+    c "You must hate me now that you know everything."
     #"Well, it's not every day that there's an event going on in here."
     "The kindlings are set ablaze, the smell of smoke fills the air."
+    e "I could never hate you."
+    e "I love you from the bottom of my heart, now and forever."
+    c "Oh Erica, I love you too."
     "As the fire spreads, the smog is making it harder to breathe."
+    c "*cough* Let us meet again *coughcough* in our next lives."
     "The smell of burning flesh is awful but the pain creeping up your legs is worse."
+    e "AAaAaaaAaargh."
     "With flames licking your body, every breath you take hits with searing pain in your lungs."
     "Not long after, the world turns to black and the pain becomes just a ghost."
     "A memory in the ocean of time."
@@ -346,12 +416,64 @@ label in_the_ruins:
     # You think you are safe
     # The cursed object is found and activated
     scene bg temple at bg_transform
-    show camellia normal at dual_right
+    show camellia sad at dual_right
     show erica normal at dual_left
     $renpy.suspend_rollback(False)
     play music "bgm/Psychological Emotional Survival Of An Indignant Soul #69.mp3" fadein 2 fadeout 2
-    c ""
+    c "They won't dare to come here."
+    c "I've heard them call these ruins cursed before."
+    show camellia sarcastic
+    c "But considering all the things they believe, I would be surprised if there's anything dangerous in here."
+    show camellia sad
+    e "This place looks pretty grim."
+    show erica questioning
+    e "And what are we going to do now?"
+    e "Can't we just go back and call it all a misunderstanding?"
+    show camellia sarcastic
+    c "Oh wouldn't that be just grand."
+    c "'Yeah, we uhh.. were just talking about the weather, really closely, while hiding in the stables.'"
+    show camellia sad
+    c "And it's too late anyways."
+    show erica normal
+    e "I guess that's true."
+    show camellia sadder
+    c "To be honest, I don't know what should we do."
+    show camellia sad_think
+    c "If we go back, they'll just lock me up and we'd never see again."
+    show camellia sadder_think
+    c "If we stay here, we'll starve."
+    show camellia sad
+    c "Maybe we could escape the village if we stole horses."
+    show camellia sad_think
+    c "But what would we do then?"
+    c "Live as bandits?"
+    show erica mad
+    e "Slow down a bit, will you."
+    show erica happy
+    e "Well get through this."
+    show erica normal
+    e "Somehow."
+    show camellia relief
+    c "Thanks. I needed to hear that."
+    c "Uhh..."
+    c "I need to rest a little."
+
+
+
+    "You decide to explore the ruins to take off your mind from the situation."
+    #hide erica with moveoutright
+    scene bg temple at bg_transform
+    with dissolve
+    show erica normal at center with moveinleft
+    "After a while, you come across a small room that's somehow preserved better than the rest of the ruins."
+    "In there you find a stone stand."
     scene cg the_pendant at bg_transform
+    "On the stand sits a fancy necklace glimmering in the faint moonlight."
+    "How could there be a necklace this exquisite in ruins like these."
+    "It would surely look great on Camellia."
+    "You take the pendant from the pedestal."
+
+    scene bg temple at bg_transform
     "very sad things happen"
     scene cg the_curse at bg_transform
     play music "bgm/The Abyss Known As Oneself #39.mp3" fadein 2 fadeout 2
