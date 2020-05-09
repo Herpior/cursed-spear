@@ -479,6 +479,7 @@ label burnt_as_witches:
     "You died, by the way."
     "As did Camellia."
     "Was this really all you could do?"
+    "Dead end."
     return
 
 label running_into_the_ruins:
@@ -676,6 +677,21 @@ label in_the_ruins:
     e "*sniff*"
     s "You can't keep on blaming yourself forever."
     s "Were in this together."
+    # There should be more text in here that would show the conflict between blaming self,
+    # your loved one being changed to something unrecognizable and gross-ish,
+    # your loved one now being entirely dependent on you,
+    # Camellia also being in an unstable state right now rather than trying to calm Erica like now happens in the text
+    # And accepting it all.
+    # Or maybe half of that should be after the next action scene
+    # but I don't know how to write any of that even half properly
+
+    # Will anyone see what I'm trying to convey here?
+    # If you're reading this long comment here, did it make my intentions clearer or maybe even more unclear?
+    # Writing is still too hard for me.
+    # I don't want to hurt the characters too much because that would make me hurt too much in the process.
+    # I've already hurt them so much but to make the characters more realistic or something, I'd need to make them
+    # hurt each other even more, to maybe make it possible for them to eventually make up and make the
+    # Endings more meaningful.
 
     vf "It came from over there!"
     vf "Everyone, come here! They're at the ruins!"
@@ -790,7 +806,7 @@ label the_confrontation:
                 else:
                         char.follow(eri)
             update()
-
+    "..."
     return
 
 label stabbed_to_death:
@@ -798,7 +814,6 @@ label stabbed_to_death:
     # Bad End 2
     scene black with dissolve
     play music "bgm/When What Is Known As Self Is Lost #79.mp3" fadein 2 fadeout 2
-    "..."
     $renpy.suspend_rollback(False)
     "Seeing camellias new form must have spooked them as they don't even try to catch you."
     "Instead they just ruthlessly kill you when they get near enough."
@@ -807,6 +822,7 @@ label stabbed_to_death:
     "Or at least tried to, I don't know how to destroy a demonic spear."
     "It must still have hurt a lot."
     "Not that you'd know that, being dead and all."
+    "Dead end."
     return
 
 label on_the_run:
@@ -814,19 +830,23 @@ label on_the_run:
     # A slightly less bad end?
     scene cg the_escape at bg_transform
     play music "bgm/Perseverance In The Face Of Extreme Moral And Social Weakness #42.mp3" fadein 2 fadeout 2
-    "..."
     $renpy.suspend_rollback(False)
-    "You ran away with tears rolling off your cheeks."
+    "You run away with tears rolling off your cheeks."
     "You manage to evade the villagers and get out of the town."
-    "After running for hours, your lungs burning and muscles aching, you finally collapse and fall asleep."
+    "After running for hours, your lungs burning and muscles aching, you finally collapse from exhaustion and fall asleep."
     #"you're sure you are no longer being followed,
     "Once you wake up, you wrap Camellia in cloth and start walking."
+
+    "..."
     "You travel through the country doing odd jobs to survive."
     "Never staying long in one place to keep your secret safe."
+    # This cg looks totally out of place in here but I can't think of anything better either and at least it uses the cg
+    # would be a shame not to use the cg if I've drawn it already.
     scene cg the_kiss_end at bg_transform
     "Only when no one else is looking, can you be with Camellia"
     "You're still risking everything every second you spend with her."
     "But you'd rather die than be separated from her."
+
     "Peaceful end."
     return
 
@@ -836,7 +856,6 @@ label enemy_of_the_state:
     # Bad End 3
     scene cg the_monster at bg_transform
     play music "bgm/When What Is Known As Self Is Lost #79.mp3" fadein 2 fadeout 2
-    "..."
     $renpy.suspend_rollback(False)
     "The remaining villagers run away in fear."
     j "M-monster!!"
@@ -847,22 +866,51 @@ label enemy_of_the_state:
     "Camellia is covered in blood."
     "How did it come to this?"
     #e "Oh dear."
-    e "..."
-    s ""
+    #e "..."
+    #s ""
+    #scene cg the_kiss_end_blood at bg_transform
+    #e "I love you, Camellia."
+    # There is a cg for kissing bloody spear Camellia but I just can't find a way to make it work with the story
+    # it's a shame to not use it since it already exists but what can I do..
+    "..."
+
+    "You end up being chased by the law enforcement."
+    "They are generally easy to avoid as long as you stay away from larger cities and settlements."
+    "You live your life poaching and foraging in the woods, with an occasional robbery here and there."
+    "The small cabin is cozy and with no visitors, you have a lot of time to talk with Camellia."
+    "There's always shortage of food and Camellia needs a sip of blood every now and then to stay sane."
+    "Luckily it seems that animal blood works as well."
+    "And like that, the days pass along."
+
+    "Outlaw end."
     return
 
 label a_massacre:
     # You massacred everyone
     scene cg the_massacre at bg_transform
     play music "bgm/When What Is Known As Self Is Lost #79.mp3" fadein 2 fadeout 2
-    "..." # it's easy to accidentally click through the first line, so add a line that can be safely skipped.
+    # it's easy to accidentally click through the first line, so add a line that can be safely skipped.
     $renpy.suspend_rollback(False)
     "One by one you strike through the people chasing you."
     "Even as they begin to flee, you won't let a single one of them escape."
     #"You kill everyone, not letting a single one of them escape."
     "The rush of the chase makes you forget you even knew the people."
+    #"Every hit invigorates you and makes you stronger"
+    "..."
 
-    scene cg the_kiss_end_blood at bg_transform
-    e "I love you, Camellia."
+    "Several months later."
+    "You're walking through a battlefield."
+    "The ground is littered with bodies."
+    "They are not killed by you, well, not all of them, at the very least."
+    "You joined a group of mercenaries not long after the events at your home village."
+    "Growing stronger with every battle, you've come to be held as a human weapon of sorts."
+    "A reaper of the battlefields."
+    "The matters of the court could not interest you less, as long as you get to draw blood."
+    "You've mostly forgotten what life was before the curse."
+    "Camellia's words ring in your head."
+    "They are the only thing you need."
+    "That's the only thing you can remember clearly."
+
+    "Violent end."
     # Bad End 4
     return
