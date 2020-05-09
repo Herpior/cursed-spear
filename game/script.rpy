@@ -3,9 +3,12 @@
 
 # In this block we declare all the characters who have dialogue in the game
 
-define c = Character("Camellia") # the cursed
-define e = Character("Erica") # the survivor
-define j = Character("Joe") # the prosecutor
+define c = Character("Camellia", color = "#FF82C0") # the cursed
+define e = Character("Erica", color = "#B5FFBE") # the survivor
+define j = Character("Joe", color = "#3CDCCE") # the prosecutor
+define vf = Character("Voice from outside", color = "#3CDCCE") # the prosecutor
+define s1 = Character("Voice in Erica's head", color = "F30095")
+define s = Character("Camellia", color = "F30095")
 
 init -4:
 
@@ -134,6 +137,60 @@ transform kiss_to_right:
     zoom 0.6667
     ease 0.3 xpos 0.8
 
+transform sit:
+    yanchor 1.0
+    ypos 1.2
+
+transform hori_shake_right:
+    zoom 0.6667
+    block:
+        linear 0.16 xpos 0.69
+        linear 0.16 xpos 0.75
+        repeat
+
+
+transform shake_right:
+    zoom 0.6667
+    parallel:
+        yanchor 1.0
+        block:
+            choice:
+                linear 0.1 ypos 1.0
+            choice:
+                linear 0.03 ypos 1.04
+            choice:
+                linear 0.06 ypos 1.06
+            choice:
+                linear 0.16 ypos 1.02
+        block:
+            choice:
+                linear 0.2 ypos 1.2
+            choice:
+                linear 0.1 ypos 1.13
+            choice:
+                linear 0.06 ypos 1.15
+            choice:
+                linear 0.03 ypos 1.10
+    parallel:
+        block:
+            choice:
+                linear 0.09 xpos 0.67
+            choice:
+                linear 0.08 xpos 0.69
+            choice:
+                linear 0.07 xpos 0.7
+            choice:
+                linear 0.06 xpos 0.71
+        block:
+            choice:
+                linear 0.09 xpos 0.78
+            choice:
+                linear 0.08 xpos 0.76
+            choice:
+                linear 0.07 xpos 0.74
+            choice:
+                linear 0.06 xpos 0.73
+    repeat
 
 transform rot(angel):
     rotate angel
@@ -204,7 +261,6 @@ label meeting_in_secret:
             update()
 
 
-    $renpy.suspend_rollback(False)
     return
 
 label the_final_date:
@@ -213,6 +269,7 @@ label the_final_date:
     scene bg backyard at bg_transform
     show camellia normal at dual_right
     c "Ah, there you are!"
+    $renpy.suspend_rollback(False)
     show erica happy at dual_left with moveinleft
     e "Sorry, I'm late."
     c "It's all right."
@@ -337,8 +394,8 @@ label burnt_as_witches:
     # Bad end 1
     scene black with dissolve
     play music "bgm/When What Is Known As Self Is Lost #79.mp3" fadein 2 fadeout 2
-    $renpy.suspend_rollback(False)
     "Joe captures you both."
+    $renpy.suspend_rollback(False)
     "You try to fight back but he is like wall of muscle."
     "You are thrown into a small room and separated from Camellia."
 
@@ -418,9 +475,9 @@ label in_the_ruins:
     scene bg temple at bg_transform
     show camellia sad at dual_right
     show erica normal at dual_left
-    $renpy.suspend_rollback(False)
     play music "bgm/Psychological Emotional Survival Of An Indignant Soul #69.mp3" fadein 2 fadeout 2
     c "They won't dare to come here."
+    $renpy.suspend_rollback(False)
     c "I've heard them call these ruins cursed before."
     show camellia sarcastic
     c "But considering all the things they believe, I would be surprised if there's anything dangerous in here."
@@ -446,6 +503,7 @@ label in_the_ruins:
     c "Maybe we could escape the village if we stole horses."
     show camellia sad_think
     c "But what would we do then?"
+    show camellia sadder
     c "Live as bandits?"
     show erica mad
     e "Slow down a bit, will you."
@@ -456,35 +514,146 @@ label in_the_ruins:
     show camellia relief
     c "Thanks. I needed to hear that."
     c "Uhh..."
+    show camellia not_smiling
     c "I need to rest a little."
-
-
+    show camellia at sit
+    with ease
 
     "You decide to explore the ruins to take off your mind from the situation."
     #hide erica with moveoutright
     scene bg temple at bg_transform
     with dissolve
-    show erica normal at center with moveinleft
-    "After a while, you come across a small room that's somehow preserved better than the rest of the ruins."
-    "In there you find a stone stand."
+    show erica normal at center, bg_transform with moveinleft
+    "After a while, you come across a small room that's preserved better than the rest of the ruins."
+    "In there, you find a stone stand."
     scene cg the_pendant at bg_transform
     "On the stand sits a fancy necklace glimmering in the faint moonlight."
     "How could there be a necklace this exquisite in ruins like these."
-    "It would surely look great on Camellia."
+    "Maybe it would cheer Camellia up."
     "You take the pendant from the pedestal."
 
     scene bg temple at bg_transform
-    "very sad things happen"
-    scene cg the_curse at bg_transform
+    show camellia not_smiling at dual_right, sit
+    show erica happy at dual_left with moveinright
+    #"very sad things happen"
+    e "Hey Camellia, look what I found."
+    show erica at center with ease
+    show camellia left
+    "You show the necklace to Camellia."
+    show camellia worried
+    c "And that was just laying around here?"
+    #c "That better not be cursed."
+    show erica normal
+    e "Yeah."
+    show camellia left
+    c "Wait, that might just be our ticket out of this."
+    show camellia flirt
+    c "We could sell that and get enough to start over in a city."
+    show erica lenny
+    e "Guess how I'd like it more right now?"
+    show erica at kiss_left
+    show camellia at dual_right
+        #zoom 0.6667
+    with ease
+    e "You wearing it."
+    show erica:
+        xpos 0.6
+    with ease
+    #"You place the pendant on her neck."
+    #show erica blush
+    show camellia amulet_happy
+    c "Oh Erica, that's so sweet."
+    show erica happy
+    e "I'm glad you cheered up."
+
+    show camellia amulet_unwell:
+        ypos 1.025
+    with ease
+    c "Hang on, I feel a bit unwell."
+    show erica questioning
+    e "From the necklace?"
+    show erica normal
+    e "I'll take it off right away."
+    show erica at hori_shake_right
+    "You try to remove the pendant but it's almost like glued to her now."
+    show erica stumped
+    "The more you try to pull it the more it seems to hurt."
     play music "bgm/The Abyss Known As Oneself #39.mp3" fadein 2 fadeout 2
+    show camellia amulet_hurt at shake_right
+    show erica afu at center
+    with ease
+    "Camellia is shaking in pain."
+    scene cg the_curse at bg_transform
     c "It hurts so much, help me Erica!"
+    "She begs with eyes bulging and her nose stretching."
+    "You don't know what could you do but you try to hold her close."
+    "Her flesh is shifting rapidly under your fingers."
+    c "AAaAAAAAaaaaAA!"
+    "..."
+    "After several agonizing minutes, you're left holding only a spear."
+
+    scene bg temple at bg_transform
+    show erica_spear cry_soft at dual_right
+    "The spear looks gruesome with it's flesh-like handle and eye and all."
+    s1 "Oww, that hurt."
+    show erica_spear surprised
+    e "Camellia!?"
+    e "You're alive?"
+    s "I got through that somehow, I suppose."
+    show erica_spear normal
+    s "I don't think I can move my body though."
+    s "How bad does it look?"
+    show erica_spear avoiding_gaze
+    e "It's... pretty bad."
+    e "You're... you just..."
+    show erica_spear cry_hard
+    "You break into tears mid sentence"
+    e "You just turned into a spear right in front of me!"
+    show erica_spear cry_medium
+    e "What have I done."
+    e "I should had never touched that necklace."
+    show erica_spear cry_hard
+    e "If anyone should had suffered, it should had been me."
+    e "You never did anything wrong, so why?"
+    e "Why did it have to be you."
+    s "Calm down, Erica."
+    show erica_spear cry_soft
+    s "Nobody is blaming you for anything."
+    s "At least we're still together."
+    s "Isn't that right?"
+    show erica_spear cry_medium
+    e "But.. But I made you go through all that pain."
+    e "And you can't even move by yourself anymore."
+    show erica_spear cry_hard
+    e "Camellia!"
+    s "Erica listen to me!"
+    show erica_spear cry_medium
+    s "It wasn't your fault."
+    s "Nobody could had predicted that this would happen."
+    show erica_spear cry_soft
+    e "*sniff*"
+    s "You can't keep on blaming yourself forever."
+    s "Were in this together."
+
+    vf "It came from over there!"
+    vf "Everyone, come here! They're at the ruins!"
+
+    show erica_spear surprised
+    e "They found us already?"
+    e "What do we do?"
+    show erica_spear sad
+    s "There are no right answers anymore."
+    s "Trust your guts."
+    s "Just don't let them catch us."
+
+
     return
 
 label the_confrontation:
     # The villagers have found you and are approaching the temple
     # RPG style segment
     $renpy.suspend_rollback(True)
-    "hold down mouse button to slash with the spear."
+    "You can hold down mouse button to slash with Camellia."
     scene bg rpg_temple at bg_transform
     play music "bgm/Negotiating The Boundary Between Self And World #85.mp3" fadein 2 fadeout 2
     #show screen mouse_tracker(mouse_down)
@@ -535,11 +704,12 @@ label the_confrontation:
         alive = len(villager_instance)
         killed = 0
         escapee = False
-    while alive > 0 and eri.x < 1140 and not dead and not escapee:
+    while alive > 0 and (eri.x < 1240 and eri.y < 690 and eri.x > 40) and not dead and not escapee:
         #renpy.show("eri_rpg", at_list=[Transform(pos=(eri.x, eri.y))])
         #renpy.show("cam_rpg", at_list=[Transform(pos=(cam.x, cam.y))])
         python:
             renpy.pause(0.016)
+            eri.speed = 6 + (killed / 5.0)
             WaitForInput()
             mouse_down = isMousePressed()
             if mouse_down:
@@ -565,17 +735,20 @@ label the_confrontation:
                         renpy.show("splat_rpg", tag = "splat_"+str(killed), at_list = [rot(eri.dir_to(villager)), charpos(int(eri.x), int(eri.y))])
                         renpy.pause(0.2)
 
-            if (killed > 5):
-                for char in villager_instance:
-                    char.run_from(eri)
-                    if char.x < 8 or char.x > 1272 or char.y > 712:
-                        escapee = True
-            else:
-                for char in villager_instance:
-                    char.follow(eri)
+
+            for char in villager_instance:
+                if killed > 4 and killed < 12:
+                    char.speed = 1
+                else:
+                    char.speed = 2
+                if (killed > 8):
+                        char.run_from(eri)
+                        if char.x < 8 or char.x > 1272 or char.y > 712:
+                            escapee = True
+                else:
+                        char.follow(eri)
             update()
 
-    $renpy.suspend_rollback(False)
     return
 
 label stabbed_to_death:
@@ -583,7 +756,15 @@ label stabbed_to_death:
     # Bad End 2
     scene black with dissolve
     play music "bgm/When What Is Known As Self Is Lost #79.mp3" fadein 2 fadeout 2
-    "You got killed"
+    "..."
+    $renpy.suspend_rollback(False)
+    "Seeing camellias new form must have spooked them as they don't even try to catch you."
+    "Instead they just ruthlessly kill you when they get near enough."
+    "You got killed."
+    "They later disposed of Camellia by burning her."
+    "Or at least tried to, I don't know how to destroy a demonic spear."
+    "It must still have hurt a lot."
+    "Not that you'd know that, being dead and all."
     return
 
 label on_the_run:
@@ -591,7 +772,20 @@ label on_the_run:
     # A slightly less bad end?
     scene cg the_escape at bg_transform
     play music "bgm/Perseverance In The Face Of Extreme Moral And Social Weakness #42.mp3" fadein 2 fadeout 2
-    "You ran away"
+    "..."
+    $renpy.suspend_rollback(False)
+    "You ran away with tears rolling off your cheeks."
+    "You manage to evade the villagers and get out of the town."
+    "After running for hours, your lungs burning and muscles aching, you finally collapse and fall asleep."
+    #"you're sure you are no longer being followed,
+    "Once you wake up, you wrap Camellia in cloth and start walking."
+    "You travel through the country doing odd jobs to survive."
+    "Never staying long in one place to keep your secret safe."
+    scene cg the_kiss_end at bg_transform
+    "Only when no one else is looking, can you be with Camellia"
+    "You're still risking everything every second you spend with her."
+    "But you'd rather die than be separated from her."
+    "Peaceful end."
     return
 
 label enemy_of_the_state:
@@ -600,7 +794,17 @@ label enemy_of_the_state:
     # Bad End 3
     scene cg the_monster at bg_transform
     play music "bgm/When What Is Known As Self Is Lost #79.mp3" fadein 2 fadeout 2
-    "The remaining villagers run away."
+    "..."
+    $renpy.suspend_rollback(False)
+    "The remaining villagers run away in fear."
+    j "M-monster!!"
+    "You look at your hands stained in blood."
+    "What have you done?"
+    "Not only did you hurt your beloved."
+    "You also killed your neighbours, people you knew."
+    "Camellia is covered in blood."
+    e "Oh dear."
+    s ""
     return
 
 label a_massacre:
@@ -608,6 +812,12 @@ label a_massacre:
     scene cg the_massacre at bg_transform
     play music "bgm/When What Is Known As Self Is Lost #79.mp3" fadein 2 fadeout 2
     "..." # it's easy to accidentally click through the first line, so add a line that can be safely skipped.
-    "You killed everyone"
+    $renpy.suspend_rollback(False)
+    "One by one you strike through your followers."
+    "You kill everyone, not letting a single one of them escape."
+    "The rush of the chase makes you forget you even knew the people."
+
+    scene cg the_kiss_end_blood at bg_transform
+    e "I love you, Camellia."
     # Bad End 4
     return
