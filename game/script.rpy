@@ -11,6 +11,9 @@ define s1 = Character("Voice in Erica's head", color = "F30095")
 define s = Character("Camellia", color = "F30095")
 
 init -4:
+    python:
+        if persistent.choice_style is None:
+            persistent.choice_style = "rpg"
 
     default mood = ""
     image eri_mini = "erp [eri.dir][mood]"
@@ -214,14 +217,53 @@ label start:
     e "I need to hurry!"
     play music "bgm/The Fragile Bliss Founded On Secrecy #74.mp3" fadein 2 fadeout 2
 
-    call meeting_in_secret
+    if persistent.choice_style == "rpg":
+        call meeting_in_secret
     call the_final_date
-    call running_into_the_forest
+    if persistent.choice_style == "rpg":
+        call running_into_the_forest
+    else:
+        menu override_run:
+            "Joe is chasing you."
+            "Run to the forest":
+                #block of code to run
+                pass
+            "Get caught":
+                $caught = True
+
     if caught:
         jump burnt_as_witches
-    call running_into_the_ruins
+
+    if persistent.choice_style == "rpg":
+        call running_into_the_ruins
+    else:
+        scene bg forest at bg_transform
+        show camellia normal at dual_left
+        c "Look, let's hide in those ruins."
     call in_the_ruins
-    call the_confrontation
+    if persistent.choice_style == "rpg":
+        call the_confrontation
+    else:
+        menu override_confront:
+            "A large group of people is closing in on you."
+            "Run Away":
+                #block of code to run
+                pass
+            "Do nothing":
+                $dead = True
+            "Slash with Camellia":
+                $killed = 6
+                $alive = 12
+                "Camellia pierces through the people like butter."
+                menu override_massacre:
+                    "The people are starting to flee from you."
+                    "Keep on killing":
+                        $alive = 0
+                        $killed = 18
+                    "Stop":
+                        #block of code to run
+                        pass
+
     if dead:
         jump stabbed_to_death
     if killed == 0:
@@ -803,7 +845,9 @@ label enemy_of_the_state:
     "Not only did you hurt your beloved."
     "You also killed your neighbours, people you knew."
     "Camellia is covered in blood."
-    e "Oh dear."
+    "How did it come to this?"
+    #e "Oh dear."
+    e "..."
     s ""
     return
 
@@ -813,8 +857,9 @@ label a_massacre:
     play music "bgm/When What Is Known As Self Is Lost #79.mp3" fadein 2 fadeout 2
     "..." # it's easy to accidentally click through the first line, so add a line that can be safely skipped.
     $renpy.suspend_rollback(False)
-    "One by one you strike through your followers."
-    "You kill everyone, not letting a single one of them escape."
+    "One by one you strike through the people chasing you."
+    "Even as they begin to flee, you won't let a single one of them escape."
+    #"You kill everyone, not letting a single one of them escape."
     "The rush of the chase makes you forget you even knew the people."
 
     scene cg the_kiss_end_blood at bg_transform
