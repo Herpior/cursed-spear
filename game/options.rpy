@@ -215,4 +215,4 @@ init python:
 ## The username and project name associated with an itch.io project, separated
 ## by a slash.
 
-# define build.itch_project = "renpytom/test-project"
+define build.itch_project = "qazhax/i-accidentally-cursed-my-girlfriend-and-she-turned-into-a-cursed-spear"
