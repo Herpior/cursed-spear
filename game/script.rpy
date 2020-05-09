@@ -218,10 +218,10 @@ label start:
     play music "bgm/The Fragile Bliss Founded On Secrecy #74.mp3" fadein 2 fadeout 2
 
     if persistent.choice_style == "rpg":
-        call meeting_in_secret
-    call the_final_date
+        call meeting_in_secret from _call_meeting_in_secret
+    call the_final_date from _call_the_final_date
     if persistent.choice_style == "rpg":
-        call running_into_the_forest
+        call running_into_the_forest from _call_running_into_the_forest
     else:
         menu override_run:
             "Joe is chasing you."
@@ -235,14 +235,14 @@ label start:
         jump burnt_as_witches
 
     if persistent.choice_style == "rpg":
-        call running_into_the_ruins
+        call running_into_the_ruins from _call_running_into_the_ruins
     else:
         scene bg forest at bg_transform
         show camellia normal at dual_left
         c "Look, let's hide in those ruins."
-    call in_the_ruins
+    call in_the_ruins from _call_in_the_ruins
     if persistent.choice_style == "rpg":
-        call the_confrontation
+        call the_confrontation from _call_the_confrontation
     else:
         menu override_confront:
             "A large group of people is closing in on you."
@@ -762,7 +762,7 @@ label the_confrontation:
         alive = len(villager_instance)
         killed = 0
         escapee = False
-    while alive > 0 and (eri.x < 1240 and eri.y < 690 and eri.x > 40) and not dead and not escapee:
+    while alive > 0 and (eri.x < 1200 and eri.y < 640 and eri.x > 80) and not dead and not escapee:
         #renpy.show("eri_rpg", at_list=[Transform(pos=(eri.x, eri.y))])
         #renpy.show("cam_rpg", at_list=[Transform(pos=(cam.x, cam.y))])
         python:
